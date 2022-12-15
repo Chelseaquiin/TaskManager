@@ -4,8 +4,7 @@
     {
         public static void SecondaryThread()
         {
-            ThreadStart threadstart = new ThreadStart(CustomThread.GuessGame);
-            Thread backgroundThread = new Thread(threadstart);
+            Thread backgroundThread = new Thread(new ThreadStart (CustomThread.GuessGame));
 
             backgroundThread.Name = "Secondary";
             backgroundThread.Start();
@@ -16,25 +15,26 @@
 
             try
             {
-                Console.WriteLine("Do you want Thread 1 or 2 or Press 0 to return");
-                int input = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Do you want  1 or 2 Threads or Press 0 to return");
+                string input = Console.ReadLine();
 
 
                 switch (input)
                 {
-                    case 1:
+                    case "1":
                         Thread primaryThread = Thread.CurrentThread;
                         primaryThread.Name = "Primary";
                         CustomThread.GuessGame();
                         break;
 
-                    case 2:
+                    case "2":
                         CustomThread.SecondaryThread();
                         break;
                     default:
                         Console.WriteLine("Invalid Input");
                         break;
                 }
+
                 
 
             }

@@ -9,7 +9,7 @@ namespace TaskManager
 {
     internal class Task
     {
-        public Process process;
+        private static Process _process = null;
       
         public static void ListAllRunningProcesses()
         {
@@ -39,11 +39,9 @@ namespace TaskManager
         }
         public static void StartANewProcess(string name)
         {
-            Process process = null;
-
             try
             {
-                process = Process.Start(@$"{name}");
+                _process = Process.Start(@$"{name}");
             }
             catch (InvalidOperationException ex)
             {
@@ -51,20 +49,18 @@ namespace TaskManager
             }
         }
         public static void StartAndKillACustomProcess()
-        {
-            Process proc = null;
-           
+        {  
             try
             {
-                proc = Process.Start(@"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+                _process = Process.Start(@"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
                "www.twitter.com");
             }
             catch (InvalidOperationException ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            Console.Write("--> Hit enter to kill {0}...",
-            proc.ProcessName);
+            Console.Write("Press enter to kill {0}",
+            _process.ProcessName);
             Console.ReadLine();
             
             try
@@ -75,17 +71,11 @@ namespace TaskManager
                 }
                 
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException e)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(e.Message);
             }
         }
-        public static void StartAndKillACustomAndABackgroundThread()
-        {
-
-        }
-
-       
 
         internal static void IsThreadAliveAndIsBackground()
         {
@@ -111,9 +101,9 @@ namespace TaskManager
                             break;
                     }
                 }
-                catch (FormatException ex)
+                catch (FormatException e)
                 {
-                    Console.WriteLine($"An error occured. {ex.Message}");
+                    Console.WriteLine(e.Message);
                 }
 
             
